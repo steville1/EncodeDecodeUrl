@@ -3,6 +3,8 @@ import { connect } from './sequelize'
 const config = require("config");
 import bodyParser from 'body-parser'
 import apiRoutes from './routes'
+const swaggerJsDoc = require('swagger-jsdoc');
+const swaggerUi = require('swagger-ui-express');
 
 // Create Express server
 const app = express()
