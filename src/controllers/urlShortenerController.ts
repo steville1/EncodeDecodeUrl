@@ -12,6 +12,21 @@ const hashGenerator: Hashids = new Hashids('salt', 5);
 const urlValidationSchema = {
   url: Joi.string().uri({ scheme: ['https', 'http'] }).trim().required()
 }
+export async function getUrlStats (req: Request, res: Response, next: NextFunction) {
+  try {
+    const shortUrl = req.query.hash as string
+    console.log("Request", req.query.hash);
+
+    let details = await urlRepository.getStatsOfUrl(shortUrl)
+    if (!details) {
+        res.status(404).json({'responseCode':'21','responseMessage':'Not Found' }); 
+    }
+    res.status(200).json({'responseCode':'00','responseMessage':'Successful', details }); 
+    } 
+    catch (err) {
+    next(err)
+  }
+}
 
 export async function getUrl (req: Request, res: Response, next: NextFunction) {
     try {

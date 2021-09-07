@@ -1,5 +1,5 @@
 import { Express } from 'express'
-import { getUrl, postUrl } from '../controllers/urlShortenerController'
+import { getUrl, postUrl, getUrlStats } from '../controllers/urlShortenerController'
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
 
@@ -60,4 +60,21 @@ export default function apiRoutes (app: Express) {
  */
 
   app.post('/api/encode', postUrl)
+  /**
+ * @swagger
+ * /api/statistic:
+ *  get:
+ *    parameters:
+ *      -  in: query
+ *         name: hash
+ *         type: string
+ *         required: false 
+ *             
+ *    description: Use To Decode Url Created
+ *    responses:
+ *      '200':
+ *        description: A successful response
+ */
+
+   app.get('/api/statistic/', getUrlStats)
 }

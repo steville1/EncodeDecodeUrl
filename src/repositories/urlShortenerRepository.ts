@@ -23,7 +23,14 @@ export default class SqlUrlRepository implements UrlShortenerInterface {
 
     return urlInstance.url
   }
-
+  public async getStatsOfUrl (shortUrl: string):Promise<Object | null> {
+    const urlInstance = await this._url.findOne({ where: { hash: shortUrl } })
+    console.log("UrlInstance", urlInstance);
+    if (!urlInstance) {
+      return null
+    }
+    return urlInstance
+  }
   public async createShortUrl (fullUrl: string, shortUrl: string): Promise<void> {
     await this._url.create({ url: fullUrl, hash: shortUrl })
   }
