@@ -39,4 +39,4 @@ const startServer = async () => {
   startServer().catch((err) => {
     console.error(err)
    })
-module.exports = app;
+   export default app

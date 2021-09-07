@@ -1,0 +1,7 @@
+{
+    "database":"urlshortener",
+    "user":"root",
+    "password":"",
+    "host":"localhost",
+    "dailect":"mysql"
+}

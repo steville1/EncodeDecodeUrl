@@ -1,10 +1,11 @@
 const config = require('config')
 import Sequelize from 'sequelize'
+//const config = require("../src/config/default.json");
 
-const sequelize = new Sequelize("urlshortener","root","",
+const sequelize = new Sequelize(config.get("database"),config.get("user"),config.get("password"),
   {
-    host: "localhost",
-    dialect: "mysql",
+    host: config.get("host"),
+    dialect: config.get("dailect"),
 
     pool: {
       min: 0,
