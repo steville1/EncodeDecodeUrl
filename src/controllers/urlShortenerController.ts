@@ -7,7 +7,7 @@ import { UrlShortenerInterface } from '../repositories/urlShortenerInterface'
 import SqlUrlRepository from '../repositories/urlShortenerRepository'
 
 const urlRepository: UrlShortenerInterface = new SqlUrlRepository()
-const hashGenerator: Hashids = new Hashids('salt', 3);
+const hashGenerator: Hashids = new Hashids('salt', 5);
 
 const urlValidationSchema = {
   url: Joi.string().uri({ scheme: ['https', 'http'] }).trim().required()
