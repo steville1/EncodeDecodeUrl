@@ -1,13 +1,16 @@
-import request from 'supertest'
-import app from '../src/app'
-import sinon from 'sinon'
+const request = require("supertest");
+const app = require("../src/app");
+const sinon = require("sinon");
+
+
 import { Url } from '../src/models'
-import Hashids from 'hashids'
+const Hashids = require("hashids")
 import SqlUrlRepository from '../src/repositories/urlShortenerRepository'
 
 describe('GET /random-url', () => {
-  it('should return 404', async (done) => {
-    request(app).get('/api/decode').expect(404, done)
+  it('should return 404', async () => {
+    const response = await request(app).get('/api/decode');
+        expect(response.statusCode).toBe(404);
   })
 })
 
@@ -33,7 +36,7 @@ describe('GET /:shortUrl', () => {
   }),
 
   it('should redirect with 301 for a short url that exists', async (done) => {
-    const fullUrl = 'http://example.com'
+    const fullUrl = 'http://www.realxmarket.com'
     sandbox.stub(Url, 'findOne').resolves({ url: fullUrl })
 
     request(app).get('/found')
@@ -72,7 +75,7 @@ describe('POST /api/encode', () => {
 
   it('should respond 400 when url has no http/https scheme', async (done) => {
     request(app).post('/api/encode')
-    .send({ url: 'www.example.com/i-like-big-urls?and=i-cannot-lie' })
+    .send({ url: 'http://www.realxmarket.com/i-like-big-urls?and=i-cannot-lie' })
     .expect(400, done)
   }),
 
@@ -80,7 +83,7 @@ describe('POST /api/encode', () => {
     sandbox.stub(SqlUrlRepository.prototype, 'getLastAvailableCount').rejects('DbError')
 
     request(app).post('/api/encode')
-    .send({ url: 'https://www.example.com' })
+    .send({ url: 'http://www.realxmarket.com' })
     .expect(500, done)
   }),
 
@@ -92,8 +95,8 @@ describe('POST /api/encode', () => {
     sandbox.stub(Hashids.prototype, 'encode').returns(shortUrl)
 
     request(app).post('/api/encode')
-    .send({ url: 'https://www.example.com' })
-    .expect(201, shortUrl, done)
+    .send({ url: 'http://www.realxmarket.com' })
+    .expect(200, shortUrl, done)
   })
 
   it('should create a shortened url with count 0 if it is the first created', async (done) => {
@@ -105,11 +108,13 @@ describe('POST /api/encode', () => {
     let encodeStub = sandbox.stub(Hashids.prototype, 'encode').returns(shortUrl)
 
     await request(app).post('/api/encode')
-    .send({ url: 'https://www.example.com' })
-    .expect(201, shortUrl)
+    .send({ url: 'http://www.realxmarket.com' })
+    .expect(200, shortUrl)
 
     sinon.assert.calledWith(encodeStub, 0)
 
     await done()
   })
+  
 })
+
